@@ -1,8 +1,7 @@
 from pyfiglet import figlet_format
 
 def opening():
-    print("="*80)    
-    wellcome = figlet_format("Wellcome To")
+    wellcome = figlet_format("Welcome To")
     webScraping = figlet_format("Web Scraping", font="slant")
     
     print(wellcome)

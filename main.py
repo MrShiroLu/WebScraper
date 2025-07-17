@@ -1,12 +1,20 @@
 import Modules.scraper as sc
 import Modules.greeting as op
 import sys
+import requests
 
-url = sys.argv[1]
+try:
+    url = sys.argv[1]
+except IndexError:
+    print("Usage: python main.py <site_url>")
+    sys.exit(1)
 
-op.opening()
+try:
+    result = sc.scrape(url) 
+    
+    op.opening()
+    sc.print_results(result)
+    sc.saving_results(result,url)
 
-result = sc.scrape(url)
-
-sc.print_results(result)
-sc.saving_results(result,url)
+except requests.exceptions.RequestException as e:
+    print(f"+"*10+"Request ERROR!"+"+"*10)
