@@ -5,18 +5,19 @@ from urllib.parse import urljoin
 
 def print_results(all_links):
     for i,link in enumerate(all_links):
-        print(f"{i}. {link}")
+        print(f"{i+1}. {link}")
         
 def saving_results(results,url):
-    with open(f'Results/scrapeResult_{url}_{time.strftime('%m_%d')}.txt', 'w') as file:
+    newUrl = url.replace('https://', '').replace('http://', '')
+    with open(f'Results/scrapeResult_{newUrl}_{time.strftime('%m_%d')}.txt', 'w') as file:
         for result in results:
             file.write(result + '\n')
 
-    print(f"\nResults exported to scrapeResult_{url}_{time.strftime('%m_%d')}.txt")
+    print(f"\nResults exported to scrapeResult_{newUrl}_{time.strftime('%m_%d')}.txt")
     print("="*80)
 
 def scrape(input):
-    url = "https://" + input 
+    url = input 
    
     response = requests.get(url)
 
