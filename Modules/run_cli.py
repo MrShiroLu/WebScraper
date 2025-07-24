@@ -1,5 +1,5 @@
-import Modules.scraper as sc
-import Modules.greeting as op
+import scraper as sc
+import greeting as op
 import sys
 import requests
 
