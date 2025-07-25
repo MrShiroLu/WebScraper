@@ -53,13 +53,13 @@ python main.py <site_url>
 
 ## ScreenShots
 
-<img alt="First Look" src="Img/firstlook.png">
+<img alt="First Look" src="Img/Image1.png">
 <p align="center"><i>This is the initial look of the application when you first open it.</i></p>
 
-<img alt="scan" src="Img/scan.png">
+<img alt="scan" src="Img/Image2.png">
 <p align="center"><i>After entering a URL and clicking 'Scrape', the application scans the website for links.</i></p>
 
-<img alt="Showing Results" src="Img/showingResults.png">
+<img alt="Showing Results" src="Img/Image3.png">
 <p align="center"><i>All found links are displayed in the results area, ready to be saved.</i></p>
 
 

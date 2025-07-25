@@ -112,7 +112,7 @@ class DarkThemeApp(tk.Tk):
                 self.result_text.insert(tk.END, "No matching links found.")
             else:
                 for i, link in enumerate(finds):
-                    self.result_text.insert(tk.END, f"{i}. {link}\n")
+                    self.result_text.insert(tk.END, f"{i+1}. {link}\n")
 
     def display_results(self, result, url):
         self.hide_loading()
