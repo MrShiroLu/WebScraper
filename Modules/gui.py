@@ -13,7 +13,7 @@ class DarkThemeApp(tk.Tk):
         super().__init__()
         self.title("Web Scraper GUI")
         self.configure(bg="#23272e")
-        self.geometry("950x700")
+        self.geometry("950x750")
         self.create_widgets()
         self.apply_dark_theme()
         self.spinner_running = False
@@ -33,6 +33,17 @@ class DarkThemeApp(tk.Tk):
 
         self.scrape_btn = tk.Button(self, text="Scrape", command=self.scrape, bg="#44475a", fg="#f8f8f2", activebackground="#6272a4", activeforeground="#f8f8f2", font=("Arial", 13), width=10, height=1)
         self.scrape_btn.pack(pady=10)
+
+        # Search box for filtering results
+        search_frame = tk.Frame(self, bg="#23272e")
+        search_frame.pack(pady=(0, 5))
+        self.search_label = tk.Label(search_frame, bg="#23272e", fg="#f8f8f2", font=("Arial", 12))
+        self.search_label.pack(side=tk.LEFT, padx=(0, 5))
+        self.search_entry = tk.Entry(search_frame, width=30, font=("Arial", 12), bg="#282c34", fg="#f8f8f2", insertbackground="#f8f8f2", borderwidth=2, relief="groove")
+        self.search_entry.pack(side=tk.LEFT, padx=(0, 5))
+        self.search_entry.bind('<Return>', lambda event: self.filter_results())
+        self.search_btn = tk.Button(search_frame, text="Find", command=self.filter_results, bg="#44475a", fg="#f8f8f2", activebackground="#6272a4", activeforeground="#f8f8f2", font=("Arial", 12), width=7, height=1)
+        self.search_btn.pack(side=tk.LEFT)
 
         self.result_text = scrolledtext.ScrolledText(self, width=80, height=18, font=("Consolas", 11), bg="#282c34", fg="#f8f8f2", insertbackground="#f8f8f2", borderwidth=2, relief="groove")
         self.result_text.pack(pady=12)
@@ -86,6 +97,23 @@ class DarkThemeApp(tk.Tk):
         except requests.exceptions.RequestException as err:
             self.after(0, self.display_error, err)
 
+    def filter_results(self):
+        if not hasattr(self, 'current_result') or self.current_result is None:
+            return
+        word = self.search_entry.get().strip().lower()
+        self.result_text.delete(1.0, tk.END)
+        if not word:
+            # Show all results
+            for i, link in enumerate(self.current_result):
+                self.result_text.insert(tk.END, f"{i}. {link}\n")
+        else:
+            finds = [url for url in self.current_result if word in url.lower()]
+            if not finds:
+                self.result_text.insert(tk.END, "No matching links found.")
+            else:
+                for i, link in enumerate(finds):
+                    self.result_text.insert(tk.END, f"{i}. {link}\n")
+
     def display_results(self, result, url):
         self.hide_loading()
         if not result:
@@ -93,6 +121,8 @@ class DarkThemeApp(tk.Tk):
         else:
             for i, link in enumerate(result):
                 self.result_text.insert(tk.END, f"{i+1}. {link}\n")
+        # Clear search box after new scrape
+        self.search_entry.delete(0, tk.END)
         self.current_result = result
         self.current_url = url
 
@@ -114,7 +144,3 @@ class DarkThemeApp(tk.Tk):
         self.url_entry.icursor(tk.END)
         return 'break'
 
-if __name__ == "__main__":
-    op.opening()
-    app = DarkThemeApp()
-    app.mainloop() 
